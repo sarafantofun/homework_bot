@@ -78,6 +78,7 @@ def check_response(response):
     if not isinstance(response.get('homeworks'), list):
         raise TypeError('homeworks не является списком')
 
+
 def parse_status(homework):
     """
     Извлекает из информации о конкретной домашней работе статус этой работы.
@@ -109,8 +110,8 @@ def main():
             hw = check_response(response)
             if not hw:
                 response = get_api_answer(timestamp)
-                homework = response.get('homeworks')[0] 
-                message = parse_status(homework)          
+                homework = response.get('homeworks')[0]
+                message = parse_status(homework)
                 if message != last_message:
                     send_message(bot, message)
                     timestamp = int(time.time())
