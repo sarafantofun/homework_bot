@@ -107,19 +107,16 @@ def main():
     while True:
         try:
             response = get_api_answer(timestamp)
-            hw = check_response(response)
-            if not hw:
-                response = get_api_answer(timestamp)
-                homework = response.get('homeworks')[0]
-                message = parse_status(homework)
-                if message != last_message:
-                    send_message(bot, message)
-                    timestamp = int(time.time())
-                    last_message = message
-                else:
-                    logger.error('Сообщение повторяется: {message}')
+            check_response(response)
+            homework = response.get('homeworks')[0]
+            check_response(response)
+            message = parse_status(homework)
+            if message != last_message:
+                send_message(bot, message)
+                timestamp = int(time.time())
+                last_message = message
             else:
-                logger.debug('Отсутствие в ответе новых статусов.')
+                logger.error('Сообщение повторяется: {message}')
         except Exception as error:
             message = f'Сбой в работе программы: {error}'
             if message != last_message:
