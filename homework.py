@@ -75,6 +75,8 @@ def check_response(response):
         raise TypeError('Ответ API не является словарем')
     if 'homeworks' not in response:
         raise KeyError('Нет ключа homeworks')
+    if 'current_date' not in response:
+        raise KeyError('Нет ключа current_date')    
     if not isinstance(response.get('homeworks'), list):
         raise TypeError('homeworks не является списком')
 
@@ -113,7 +115,7 @@ def main():
             message = parse_status(homework)
             if message != last_message:
                 send_message(bot, message)
-                timestamp = int(time.time())
+                timestamp =  response.get('current_date')
                 last_message = message
             else:
                 logger.error('Сообщение повторяется: {message}')
